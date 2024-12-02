@@ -1,0 +1,99 @@
+#form {
+    margin: 0 auto;
+    width: 400px;
+    text-align: center;
+    border: 1px solid #12722a;
+    padding: 20px;
+   
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    background-color: white;
+    
+}
+.input-group {
+    margin-bottom: 10px;
+    font-family: 'Verdana', sans-serif;
+    width: 100%;
+}
+
+#username input {
+    
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 30px;
+    background-color: #f0f0f086;
+    font-size: 14px;
+    outline: none;
+}
+
+#password input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 30px;
+    background-color: #f0f0f086;
+    font-size: 14px;
+    outline: none;
+}
+.input-group input:focus {
+    border-color: #002aff;
+}
+
+#login_button {
+    background-color:  rgb(5, 5, 79);
+    border: none; /* No border */
+    color: white; /* White text color */
+    padding: 15px 32px; /* Padding around the text */
+    text-align: center; /* Center-aligned text */
+    text-decoration: none; /* No underline */
+    display: inline-block; /* Inline-block display */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin around the button */
+    cursor: pointer; /* Pointer cursor */
+    border-radius: 9px; /* Rounded corners */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
+    transition: 0.3s; /* Transition effect */
+    font-family: 'Verdana', sans-serif;
+  }
+
+  #login_button:hover {
+   background-color: rgb(14, 14, 134);
+    /* Darker green background color on hover */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); /* Larger shadow effect on hover */
+  }
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px); /* Apply blur effect */
+    z-index: -1; /* Send background behind everything else */
+}
+.eye_icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('eye_open_icon.png'); /* Default closed eye image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.eye_icon.open {
+    background-image: url('eye_icon.png'); /* Open eye image */
+}

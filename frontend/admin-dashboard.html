@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <!-- Include Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Include Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Include Chart.js for visual statistics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-gray-100">
+
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-slate-800 h-full px-6 py-10 flex flex-col">
+      <div class="flex gap-2 items-center mb-10 -ml-2">
+        <img src="logo.png" alt="logo" class="w-12 h-12 rounded-full" />
+        <div class="text-white text-xl font-semibold">ASF</div>
+      </div>
+      <div class="flex flex-col gap-8 text-md font-medium cursor-pointer">
+        <a href="admin-dashboard.html" class="text-yellow-400 flex items-center gap-4 px-2 py-1 rounded-md hover:bg-slate-700">
+          <i class="fa-solid fa-gauge"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="Mark-attendance.html" class="menu-item text-white hover:bg-slate-700 px-2 py-1 rounded-md">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Mark Attendance</span>
+        </a>
+        <a href="post-grades.html" class="menu-item text-white hover:bg-slate-700 px-2 py-1 rounded-md">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Post Grades</span>
+        </a>
+        <a href="post-diary.html" class="menu-item text-white hover:bg-slate-700 px-2 py-1 rounded-md">
+          <i class="fa-solid fa-pen-to-square"></i>
+          <span>Post Diary</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-full h-[100vh] overflow-y-auto">
+      <div
+          class="w-full h-[50px] border-l-2 border-white-900 bg-slate-800 flex justify-end items-center px-4"
+        >
+          <a
+            href="#"
+            class="px-3 py-1 rounded-lg bg-red-700 hover:bg-red-600 cursor-pointer text-white transition-colors duration-500 text-sm"
+            onclick="logoutAndRedirect()"
+          >
+            LOGOUT
+          </a>
+        </div>
+      
+      <div class="main-section px-8 py-4">
+        <h1 class="text-3xl font-semibold text-gray-700">Admin Dashboard</h1>
+
+        <!-- Statistics Cards Section -->
+        <div class="grid grid-cols-3 gap-6 mt-8">
+          <!-- Total Students Card -->
+          <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div class="text-5xl text-blue-600">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Total Students</h3>
+            <p id="total_students"class="text-3xl font-semibold text-gray-700"></p>
+          </div>
+
+          <!-- Sections Card -->
+          <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div class="text-5xl text-green-600">
+              <i class="fa-solid fa-chalkboard"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Sections</h3>
+            <p id="total_sections" class="text-3xl font-semibold text-gray-700"></p>
+          </div>
+
+          <!-- Results Card -->
+          <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div class="text-5xl text-yellow-600">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 class="text-xl font-bold mt-4">Overall Results</h3>
+            <canvas id="resultsChart" class="mt-4"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-10 bg-white p-6 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-semibold text-gray-700">Add New Student</h2>
+          <form id="studentForm" class="mt-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="name" class="text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" placeholder="Enter Name" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" required />
+              </div>
+              <div class="form-group">
+                <label for="rollnumber" class="text-sm font-medium text-gray-700">Roll Number</label>
+                <input type="text" id="rollnumber" placeholder="Enter Roll Number" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" required />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div class="form-group">
+                <label for="cnic" class="text-sm font-medium text-gray-700">CNIC</label>
+                <input type="text" id="cnic" placeholder="Enter CNIC" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" required />
+              </div>
+              <div class="form-group">
+                <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" placeholder="Enter Password" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" required />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div class="form-group">
+                <label for="section" class="text-sm font-medium text-gray-700">Section</label>
+                <input type="text" id="section" placeholder="Enter Section" class="mt-1 p-2 border border-gray-300 rounded-lg w-full" required />
+              </div>
+            </div>
+            <button type="submit" class="mt-6 w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-500">Add Student</button>
+          </form>
+        </div>
+
+  <!-- Chart.js Script for Results -->
+  <script>
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    const resultsChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['A', 'B', 'C', 'D', 'F'],
+        datasets: [{
+          label: 'Number of Students',
+          data: [120, 80, 90, 60, 100],
+          backgroundColor: ['#4CAF50', '#FFC107', '#FF5722', '#9E9E9E', '#F44336'],
+          borderColor: '#ffffff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  <script>
+    // Handle form submission
+    document.getElementById('studentForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Prevent the default form submission behavior
+  
+      // Gather form data
+      const name = document.getElementById('name').value;
+      const rollNo = document.getElementById('rollnumber').value;
+      const cnic = document.getElementById('cnic').value;
+      const section = document.getElementById('section').value;
+      const password = document.getElementById('password').value;
+  
+      // Admin token (in a real-world scenario, fetch this securely)
+      const token = localStorage.token; 
+  
+      // API payload
+      const payload = {
+        name,
+        rollNo,
+        cnic,
+        section,
+        password,
+        token,
+      };
+  
+      try {
+        // Send PUT request to the API
+        const response = await fetch('http://localhost:5000/admin/new-student', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+  
+        const data = await response.json();
+  
+        // Handle response
+        if (response.ok) {
+          alert('Student added successfully!');
+          document.getElementById('studentForm').reset();
+
+        } else {
+          alert(`Error: ${data.error}`);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while adding the student.');
+      }
+    });
+  </script>
+  <script src="admin-dashboard.js"></script>
+  <script>
+    function logoutAndRedirect() {
+      // Remove studentInfo and token from localStorage
+      localStorage.removeItem("studentInfo");
+      localStorage.removeItem("token");
+
+      // Redirect to login page
+      window.location.href = "./db_login.html";
+    }
+  </script>
+</body>
+</html>

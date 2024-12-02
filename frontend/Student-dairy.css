@@ -1,0 +1,22 @@
+/* General styling for the Student Diary page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Sidebar link active state */
+  a.text-yellow-400 {
+    font-weight: bold;
+  }
+  
+  /* Entry card hover effect */
+  div.bg-white {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  div.bg-white:hover {
+    transform: translateY(-5px);
+  }
+  

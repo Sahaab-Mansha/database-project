@@ -1,0 +1,20 @@
+table {
+    width: 100%;
+    border-collapse: collapse; /* Removes default spacing between table cells */
+    color: #4a5568; /* Grayish text color */
+  }
+  
+  thead th {
+    text-align: left; /* Ensures consistent alignment */
+    padding: 10px;
+    font-weight: 500; /* Makes the headings not bold */
+  }
+  
+  tbody tr {
+    border-bottom: 1px solid #e2e8f0; /* Adds a separator after each row */
+  }
+  
+  tbody td {
+    padding: 10px; /* Adds spacing within the table cells */
+  }
+  

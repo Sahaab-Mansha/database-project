@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Grades</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="post-grades.css" />
+  </head>
+  <body>
+    <div class="flex h-[100vh]">
+      <div
+        class="w-[250px] bg-slate-800 h-full px-6 py-10 flex flex-col text-white"
+      >
+        <div class="flex gap-2 items-center mb-10 -ml-2">
+          <img src="logo.png" alt="logo" class="w-12 h-12 rounded-full" />
+          <div class="text-white text-xl font-semibold">ASF</div>
+        </div>
+        <div class="flex flex-col gap-8 text-md font-medium cursor-pointer">
+          <a href="admin-dashboard.html" class="menu-item">
+            <i class="fa-solid fa-gauge"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="Mark-attendance.html" class="menu-item">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Mark Attendance</span>
+          </a>
+          <a
+            href="post-grades.html"
+            class="text-yellow-400 flex items-center gap-4"
+          >
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Post Grades</span>
+          </a>
+          <a href="post-diary.html" class="menu-item">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Post Diary</span>
+          </a>
+        </div>
+      </div>
+      <div class="w-full h-[100vh] overflow-y-auto">
+        <div
+          class="w-full h-[50px] border-l-2 border-white-900 bg-slate-800 flex justify-end items-center px-4"
+        >
+          <a
+            href="#"
+            class="px-3 py-1 rounded-lg bg-red-700 hover:bg-red-600 cursor-pointer text-white transition-colors duration-500 text-sm"
+            onclick="logoutAndRedirect()"
+          >
+            LOGOUT
+          </a>
+        </div>
+        <div class="px-4 py-6">
+          <div class="text-2xl font-bold text-slate-700 mb-6 m-2">
+            Post Grades
+          </div>
+          <div class="mb-4 flex gap-4 items-center">
+            <select
+              class="border border-gray-300 rounded-lg p-2 w-1/3"
+              id="search-type"
+            >
+              <option value="rollNo">Search by Roll Number</option>
+              <option value="section">Search by Section</option>
+              <option value="class">Search All Students</option>
+            </select>
+            <input
+              type="text"
+              id="search-input"
+              class="border border-gray-300 rounded-lg p-2 w-1/3"
+              placeholder="Enter Roll Number / Section / Class"
+            />
+            <button
+              class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors duration-500"
+              onclick="searchStudents()"
+            >
+              Search
+            </button>
+          </div>
+          <!-- Table Section -->
+          <div>
+            <table
+              class="table-auto w-full border-collapse border border-gray-300 shadow-md"
+              id="students-table"
+            >
+              <thead>
+                <tr class="bg-slate-800 text-white">
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Roll No
+                  </th>
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Name
+                  </th>
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Section
+                  </th>
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="students-table-body">
+                <!-- Student rows will be populated here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Grades Table Section -->
+          <div class="mt-6" id="grades-section" style="display: none">
+            <h2 class="text-xl font-semibold text-slate-700 mb-4">
+              Student Grades
+            </h2>
+            <table
+              class="table-auto w-full border-collapse border border-gray-300 shadow-md"
+              id="grades-table"
+            >
+              <thead>
+                <tr class="bg-slate-800 text-white">
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Roll No
+                  </th>
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Term
+                  </th>
+                  <th class="border border-gray-300 px-4 py-2 text-center">
+                    Percentage
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="grades-table-body">
+                <!-- Grade rows will be populated here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Add Student Grades Form -->
+          <div class="mt-6">
+            <h2 class="text-xl font-semibold text-slate-700 mb-4">
+              Add Student Grades
+            </h2>
+            <form id="grade-form" onsubmit="addGrade(event)">
+              <div class="mb-4 flex gap-4">
+                <input
+                  type="text"
+                  id="rollNo"
+                  class="border border-gray-300 rounded-lg p-2 w-1/3"
+                  placeholder="Enter Roll Number"
+                  required
+                />
+                <input
+                  type="text"
+                  id="term"
+                  class="border border-gray-300 rounded-lg p-2 w-1/3"
+                  placeholder="Enter Term"
+                  required
+                />
+                <input
+                  type="number"
+                  step="0.01"
+                  id="percentage"
+                  class="border border-gray-300 rounded-lg p-2 w-1/3"
+                  placeholder="Enter Percentage"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                class="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg transition-colors duration-500"
+              >
+                Submit Grades
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to fetch student data based on the selected search type
+      function searchStudents() {
+        const searchType = document.getElementById("search-type").value;
+        const searchInput = document
+          .getElementById("search-input")
+          .value.trim();
+        let url = "";
+
+        if (searchType === "rollNo" && searchInput) {
+          url = `http://localhost:5000/admin/get-student`;
+        } else if (searchType === "section" && searchInput) {
+          url = `http://localhost:5000/admin/get-section-students`;
+        } else if (searchType === "class") {
+          url = `http://localhost:5000/admin/get-all-students`;
+        }
+
+        if (!url) {
+          alert("Please enter a search value.");
+          return;
+        }
+
+        const data = { [searchType]: searchInput, token: localStorage.token };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              alert(data.error);
+              return;
+            }
+
+            const students = searchType === "rollNo" ? [data] : data;
+            const tableBody = document.getElementById("students-table-body");
+            tableBody.innerHTML = "";
+
+            students.forEach((student) => {
+              const row = document.createElement("tr");
+              row.classList.add("hover:bg-gray-50");
+              row.innerHTML = `
+                        <td class="border border-gray-300 px-4 py-2 text-center">${student.rollNo}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">${student.name}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">${student.section}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">
+                            <button
+                                class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm"
+                                onclick="showGrades('${student.rollNo}')"
+                            >
+                                Show Grades
+                            </button>
+                        </td>
+                    `;
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) => {
+            alert("An error occurred while fetching student data.");
+          });
+      }
+
+      // Function to fetch grades for a specific student
+      function showGrades(rollNo) {
+        fetch(`http://localhost:5000/admin/get-student-grades`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rollNo, token: localStorage.token }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const gradesSection = document.getElementById("grades-section");
+            const gradesTableBody =
+              document.getElementById("grades-table-body");
+
+            if (data.error) {
+              alert(data.error);
+              return;
+            }
+
+            gradesSection.style.display = "block";
+            gradesTableBody.innerHTML = "";
+
+            data.forEach((grade) => {
+              const row = document.createElement("tr");
+              row.classList.add("hover:bg-gray-50");
+              row.innerHTML = `
+                        <td class="border border-gray-300 px-4 py-2 text-center">${grade.rollNo}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">${grade.term}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center">${grade.percentage}%</td>
+                    `;
+              gradesTableBody.appendChild(row);
+            });
+          })
+          .catch((error) => {
+            alert("An error occurred while fetching grades.");
+          });
+      }
+    </script>
+    <script>
+      // Function to handle form submission and post grade data
+      function addGrade(event) {
+        // Prevent form default behavior (page reload)
+        event.preventDefault();
+
+        // Get the form values
+        const rollNo = document.getElementById("rollNo").value.trim();
+        const term = document.getElementById("term").value.trim();
+        const percentage = parseFloat(
+          document.getElementById("percentage").value.trim()
+        );
+
+        // Check if values are valid
+        if (!rollNo || !term || isNaN(percentage)) {
+          alert("Please fill all the fields correctly.");
+          return;
+        }
+
+        // Prepare the data to send
+        const gradeData = {
+          rollNo,
+          term,
+          percentage,
+          token: localStorage.token,
+        };
+
+        // Send the POST request to the backend API
+        fetch("http://localhost:5000/admin/mark-grades", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(gradeData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status) {
+              alert(data.status);
+              // Optionally, reset the form after successful submission
+              document.getElementById("grade-form").reset();
+            } else {
+              alert(
+                data.error || "An error occurred while submitting the grade."
+              );
+            }
+          })
+          .catch((error) => {
+            alert("An error occurred: " + error.message);
+          });
+      }
+    </script>
+    <script>
+      function logoutAndRedirect() {
+        // Remove studentInfo and token from localStorage
+        localStorage.removeItem("studentInfo");
+        localStorage.removeItem("token");
+
+        // Redirect to login page
+        window.location.href = "./db_login.html";
+      }
+    </script>
+  </body>
+</html>
